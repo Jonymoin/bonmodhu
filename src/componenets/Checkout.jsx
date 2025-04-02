@@ -26,7 +26,7 @@ const Checkout = () => {
     }));
 
     emailjs
-      .send("service_pyysulx", "template_hy57f6e", {
+      .send("service_gn885yq", "template_hy57f6e", {
         name: form.current.name.value,
         phone: form.current.phone.value,
         address: form.current.address.value,
