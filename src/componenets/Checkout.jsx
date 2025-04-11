@@ -1,12 +1,11 @@
 import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 
 const Checkout = () => {
   const form = useRef();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const { cart, totalAmount, deliveryCharge, selectedDelivery } = location.state || {
     cart: [],
     totalAmount: 0,
@@ -16,7 +15,7 @@ const Checkout = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
 
-  const sendOrderEmail = (e) => {
+  const sendOrderToGoogleSheet = async (e) => {
     e.preventDefault();
 
     const formattedProducts = cart.map((item) => ({
@@ -25,25 +24,35 @@ const Checkout = () => {
       price: item.price * item.quantity,
     }));
 
-    emailjs
-      .send("service_gn885yq", "template_hy57f6e", {
-        name: form.current.name.value,
-        phone: form.current.phone.value,
-        address: form.current.address.value,
-        delivery: selectedDelivery,
-        totalAmount,
-        products: JSON.stringify(formattedProducts),
-      }, "ezDe8-nMFjkYWr-87")
-      .then(() => {
-        setSuccessMessage("✅ অর্ডার সফলভাবে প্লেস হয়েছে!");
-        form.current.reset();
-        setTimeout(() => setSuccessMessage(""), 3000);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Email Failed:", error);
-        alert("❌ ইমেইল পাঠাতে ব্যর্থ হয়েছে!");
+    // ✅ JSON format e data prepare
+    const formData = {
+      name: form.current.name.value,
+      phone: form.current.phone.value,
+      address: form.current.address.value,
+      email: "", // Optional
+      delivery: selectedDelivery,
+      totalAmount,
+      products: JSON.stringify(formattedProducts),
+    };
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbzjLXloSy5kKfMfEAOtN_nOLovabxhTns6ER7FBqkdGaCcQ0gS6Yo9Ycsc0ueN-oKSw3g/exec",
+        {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      setSuccessMessage("✅ অর্ডার সফলভাবে প্লেস হয়েছে!");
+      form.current.reset();
+      setTimeout(() => setSuccessMessage(""), 3000);
+      navigate("/");
+    } catch (error) {
+      console.error("Google Sheet Error:", error);
+      alert("❌ ডেটা পাঠাতে সমস্যা হয়েছে!");
+    }
   };
 
   return (
@@ -56,7 +65,7 @@ const Checkout = () => {
         </div>
       )}
 
-      <form ref={form} onSubmit={sendOrderEmail} className="space-y-4">
+      <form ref={form} onSubmit={sendOrderToGoogleSheet} className="space-y-4">
         <input type="text" name="name" placeholder="নাম*" required className="w-full p-2 border rounded-md" />
         <input type="tel" name="phone" placeholder="মোবাইল নম্বর*" required className="w-full p-2 border rounded-md" />
         <textarea name="address" placeholder="ঠিকানা*" required className="w-full p-2 border rounded-md"></textarea>

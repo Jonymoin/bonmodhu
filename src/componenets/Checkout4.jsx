@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
-const Checkout = () => {
+const Checkout4 = () => {
   const form = useRef();
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,14 +26,14 @@ const Checkout = () => {
     }));
 
     emailjs
-      .send("service_rudesls", "template_hy57f6e", {
+      .send("service_gn885yq", "template_hy57f6e", {
         name: form.current.name.value,
         phone: form.current.phone.value,
         address: form.current.address.value,
         delivery: selectedDelivery,
         totalAmount,
         products: JSON.stringify(formattedProducts),
-      }, "ezDe8-nMFjkYWr-87")
+      }, "KH0-VYWxI5ztXTETX")
       .then(() => {
         setSuccessMessage("✅ অর্ডার সফলভাবে প্লেস হয়েছে!");
         form.current.reset();
@@ -71,4 +71,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default Checkout4;
