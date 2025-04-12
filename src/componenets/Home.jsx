@@ -58,19 +58,35 @@ const Home = () => {
   };
 
   return (
+   <>
+    <div className="flex flex-col items-center justify-center h-[400px] w-full bg-cover bg-center">
+        <img 
+          src="/images/bee.jpg" 
+          alt="bee" 
+          loading="lazy" 
+          className="absolute inset-0 w-full h-[400px] object-cover"
+        />
+
+        {/* Hero Text */}
+        <h1 className="uppercase text-6xl md:leading-[120px] text-white font-extrabold md:tracking-[10px] md:text-[120px] font-abril text-center z-10">
+        বনমধু
+        </h1>
+      </div>
     <div className="max-w-6xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">আমাদের সংগ্রহ</h2>
+     
+      <h1 className="text-center text-4xl"></h1>
+      <h2 className="text-4xl font-bold text-center mb-4">আমাদের সংগ্রহ</h2>
 
       <h3 className="text-xl font-semibold mt-6 mb-2">🌿 সুন্দরবনের মধু</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.sundarbans.map((item) => (
-          <article key={item.id} className="bg-white shadow-md rounded-lg p-4">
+          <article key={item.id} className="bg-white flex flex-col items-center shadow-md rounded-lg p-4">
             <img src={item.images[0]} alt={item.name} className="w-full h-40 object-cover rounded-md" />
-            <h3 className="text-lg font-semibold mt-2">{item.name}</h3>
-            <p className="text-gray-600">মূল্য: {item.price}৳</p>
+            <h3 className="text-lg font-semibold mt-2 text-center">{item.name}</h3>
+            <p className="text-gray-600 text-center">মূল্য: {item.price}৳</p>
             <button
               onClick={() => addToCart(item)}
-              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
+              className="mt-2 bg-blue-500  hover:bg-gray-600 text-white px-4 py-2 rounded-md transition"
             >
               কিনুন
             </button>
@@ -78,18 +94,19 @@ const Home = () => {
         ))}
       </div>
 
-      <h3 className="text-xl font-semibold mt-6 mb-2">🐝 গুড় সংগ্রহ</h3>
+      <h3 className="text-xl font-semibold mt-6 mb-2">🐝 গুড় সংগ্রহ (শীঘ্রই আসছে অগ্রিম অর্ডার করতে  যোগাযোগ করুন
+      )</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.ghurs.map((item) => (
-          <article key={item.id} className="bg-white shadow-md rounded-lg p-4">
+          <article key={item.id} className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center">
             <img src={item.images[0]} alt={item.name} className="w-full h-40 object-cover rounded-md" />
             <h3 className="text-lg font-semibold mt-2">{item.name}</h3>
             <p className="text-gray-600">মূল্য: {item.price}৳</p>
             <button
               onClick={() => addToCart(item)}
-              className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
+              className="mt-2 bg-red-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
             >
-              কিনুন
+              অগ্রিম অর্ডার করুন
             </button>
           </article>
         ))}
@@ -161,6 +178,7 @@ const Home = () => {
         )}
       </div>
     </div>
+   </>
   );
 };
 

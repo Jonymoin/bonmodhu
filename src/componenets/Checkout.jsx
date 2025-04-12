@@ -24,26 +24,25 @@ const Checkout = () => {
       price: item.price * item.quantity,
     }));
 
-    // ✅ JSON format e data prepare
-    const formData = {
-      name: form.current.name.value,
-      phone: form.current.phone.value,
-      address: form.current.address.value,
-      email: "", // Optional
-      delivery: selectedDelivery,
-      totalAmount,
-      products: JSON.stringify(formattedProducts),
-    };
+    // Use URLSearchParams instead of JSON
+    const formData = new URLSearchParams();
+    formData.append("name", form.current.name.value);
+    formData.append("phone", form.current.phone.value);
+    formData.append("address", form.current.address.value);
+    formData.append("delivery", selectedDelivery);
+    formData.append("totalAmount", totalAmount);
+    formData.append("products", JSON.stringify(formattedProducts));
 
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbzjLXloSy5kKfMfEAOtN_nOLovabxhTns6ER7FBqkdGaCcQ0gS6Yo9Ycsc0ueN-oKSw3g/exec",
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbyE-1eMblZ3OgS4njQWUlvnreJTLUlBbE3fEN91gMsGTb48Hk6xEn2THidqdw09NJQF/exec",
         {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      window.alert("✅ অর্ডারটি নিশ্চিত করা হয়েছে!");
 
       setSuccessMessage("✅ অর্ডার সফলভাবে প্লেস হয়েছে!");
       form.current.reset();
