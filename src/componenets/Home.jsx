@@ -12,7 +12,7 @@ const Home = () => {
   const products = {
     sundarbans: [
       { id: 1, name: "খলিশা ফুলের মধু (৫০০ গ্রাম)", images: ["/images/honey1.jpg"], price: 1200 },
-      { id: 2, name: "খলিশা ফুলের মধু (১ কেজি)", images: ["/images/honey2.webp"], price: 1200 },
+      { id: 2, name: "খলিশা ফুলের মধু (১ কেজি)", images: ["/images/honey2.webp"], price: 2300 },
     ],
     ghurs: [
       { id: 3, name: "খেজুরের ঝোলা গুড়", images: ["/images/honey3.jpg"], price: 1500 },
