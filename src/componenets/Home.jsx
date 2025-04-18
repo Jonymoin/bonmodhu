@@ -11,8 +11,8 @@ const Home = () => {
 
   const products = {
     sundarbans: [
-      { id: 1, name: "খলিশা ফুলের মধু (৫০০ গ্রাম)", images: ["/images/honey1.jpg"], price: 1200 },
-      { id: 2, name: "খলিশা ফুলের মধু (১ কেজি)", images: ["/images/honey2.webp"], price: 2300 },
+      { id: 1, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1:"১ কেজি", images: ["/images/honey1.jpg"], price: 2300 },
+      { id: 2, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু",name1:"৫০০ গ্রাম", images: ["/images/honey2.webp"], price: 1200 },
     ],
     ghurs: [
       { id: 3, name: "খেজুরের ঝোলা গুড়", images: ["/images/honey3.jpg"], price: 1500 },
@@ -87,6 +87,7 @@ const Home = () => {
           <article key={item.id} className="bg-white flex flex-col items-center shadow-md rounded-lg p-4 w-full">
             <img src={item.images[0]} alt={item.name} className="w-full h-40 object-cover rounded-md" />
             <h3 className="text-lg font-semibold mt-2 text-center">{item.name}</h3>
+            <h3 className="text-lg font-semibold mt-2 text-center">{item.name1}</h3>
             <p className="text-gray-600 text-center">মূল্য: {item.price}৳</p>
             <button
               onClick={() => addToCart(item)}
