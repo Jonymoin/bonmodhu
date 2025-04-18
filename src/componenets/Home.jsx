@@ -98,8 +98,7 @@ const Home = () => {
         ))}
       </div>
 
-      <h3 className="text-xl font-semibold mt-6 mb-2">🐝 গুড় সংগ্রহ (শীঘ্রই আসছে অগ্রিম অর্ডার করতে  যোগাযোগ করুন
-      )</h3>
+      
      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.ghurs.map((item) => (
           <article key={item.id} className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center">
@@ -149,7 +148,7 @@ const Home = () => {
                     onChange={() => handleDeliverySelection(70, "ঢাকার ভিতরে")}
                     checked={selectedDelivery === "ঢাকার ভিতরে"}
                   />
-                  ঢাকার ভিতরে - ৭০৳
+                  ঢাকার ভিতরে - ৮০৳
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -183,8 +182,7 @@ const Home = () => {
       </div>
       <div className="space-y-5 text-[22px]">
     <h3 className="text-[25px] font-semibold">আমাদের সাথে যোগাযোগ করুন</h3>
-    <p>আমাদের বিক্রয় প্রতিনিধির সাথে কথা বলতে সরাসরি কল করুন
-    </p>
+    
     <p>মোবাইল ঃ 01321 102838</p>
     <p>ইমেইল ঃ Bonmodhubd@gmail.com</p>
   </div>
