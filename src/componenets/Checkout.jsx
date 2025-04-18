@@ -35,7 +35,7 @@ const Checkout = () => {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbzf71jcsn4pfJO6KdzTC5G6MulCc_ilM_p5btzizScvOjUbvavM1ub1mApY9nB4quvz/exec",
+        "https://script.google.com/macros/s/AKfycbyEU6b-7biQxgAdQApa3pFtIl_xlTlPzViDD_L9IHWCjK4jeH8znyIvAstcuqa4dmas/exec",
         {
           method: "POST",
           body: formData,
