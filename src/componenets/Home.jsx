@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
+import toast from "react-hot-toast";
+import CollectionProcess from "./CollectionProcess";
 
 const Home = () => {
   const [cart, setCart] = useState([]);
-  const [deliveryCharge, setDeliveryCharge] = useState(0);
-  const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const [selectedZone, setSelectedZone] = useState(null);
   const navigate = useNavigate();
 
   const products = {
     sundarbans: [
-      { id: 1, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "১ কেজি", images: ["/images/honey1.jpg"], price: 2300 },
-      { id: 2, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "৫০০ গ্রাম", images: ["/images/honey2.webp"], price: 1200 },
+      { id: 1, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "১ কেজি", images: ["/images/bon1.jpg"], price: 2300 },
+      { id: 2, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "৫০০ গ্রাম", images: ["/images/bon1.2.jpg"], price: 1200 },
+      
     ],
-    ghurs: [
-      { id: 3, name: "খেজুরের ঝোলা গুড়", images: ["/images/honey3.jpg"], price: 1500 },
-      { id: 4, name: "খেজুরের পাটালি গুড়", images: ["/images/honey4.jpg"], price: 1600 },
-      { id: 5, name: " খেজুরের চকোলেট গুড়", images: ["/images/honey5.png"], price: 1600 },
-    ],
+  };
+
+  const deliveryRates = {
+    insideDhaka: { 1: 80, 2: 100, 3: 120, 4: 140, 5: 160 },
+    outsideDhaka: { 1: 150, 2: 200, 3: 230, 4: 260, 5: 290 },
   };
 
   const addToCart = (item) => {
@@ -30,6 +32,7 @@ const Home = () => {
       }
       return [...prevCart, { ...item, quantity: 1 }];
     });
+    toast.success("আপনার প্রোডাক্ট কার্টে যোগ হয়েছে, নিচে স্ক্রল করুন");
   };
 
   const increaseQuantity = (id) => {
@@ -52,40 +55,31 @@ const Home = () => {
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const totalWeight = cart.reduce((total, item) => total + item.quantity, 0);
-  const totalAmount = subtotal + deliveryCharge;
 
-  const deliveryRates = {
-    insideDhaka: {
-      1: 80,
-      2: 100,
-      3: 120,
-      4: 140,
-      5: 160,
-    },
-    outsideDhaka: {
-      1: 150,
-      2: 200,
-      3: 230,
-      4: 260,
-      5: 290,
-    },
+  const calculateDeliveryCharge = () => {
+    if (!selectedZone) return 0;
+    if (totalWeight > 5) {
+      return selectedZone === "insideDhaka" ? 200 : 400;
+    }
+    return deliveryRates[selectedZone][totalWeight] || 0;
   };
 
-  const handleDeliverySelection = (zone) => {
-    const key = totalWeight > 5 ? 5 : totalWeight || 1;
-    const charge = deliveryRates[zone]?.[key] || 0;
+  const deliveryCharge = calculateDeliveryCharge();
+  const totalAmount = subtotal + deliveryCharge;
 
-    setDeliveryCharge(charge);
-    setSelectedDelivery(zone === "insideDhaka" ? "ঢাকার ভিতরে" : "ঢাকার বাইরে");
+  const handleZoneChange = (e) => {
+    setSelectedZone(e.target.value);
   };
 
   return (
     <>
       <div className="bg-green-500 text-center flex flex-col items-center">
-        আমাদের যেকোনো পণ্য অর্ডার করতে কল বা WhatsApp করুন
-        <div className="flex items-center text-center text-2xl hover:text-blue-700">
+        আমাদের যেকোনো পণ্য অর্ডার করতে কল বা WhatsApp করুন
+        <div className="flex items-center text-2xl hover:text-blue-700">
           <FaWhatsapp />
-          <a href="http://wa.me/8801321102838" target='blank' rel='noopener noreferrer'> 01321 102838</a>
+          <a href="http://wa.me/8801321102838" target="_blank" rel="noopener noreferrer" className="ml-2">
+            01321 102838
+          </a>
         </div>
       </div>
 
@@ -108,9 +102,9 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
           {products.sundarbans.map((item) => (
             <article key={item.id} className="bg-white flex flex-col items-center shadow-md rounded-lg p-4 w-full">
-              <img src={item.images[0]} alt={item.name} className="w-full h-40 object-cover rounded-md" />
+              <img src={item.images[0]} alt={item.name} className="w-full h-40 md:h-52 object-cover rounded-md" />
               <h3 className="text-lg font-semibold mt-2 text-center">{item.name}</h3>
-              <h3 className="text-lg font-semibold mt-2 text-center">{item.name1}</h3>
+              <h3 className="text-lg font-semibold mt-1 text-center">{item.name1}</h3>
               <p className="text-gray-600 text-center">মূল্য: {item.price}৳</p>
               <button
                 onClick={() => addToCart(item)}
@@ -122,22 +116,24 @@ const Home = () => {
           ))}
         </div>
 
+        {/* Cart Section */}
         <div className="mt-6 p-4 bg-gray-100 rounded-lg">
           <h2 className="text-xl font-bold">🛒 আপনার কার্ট</h2>
+
           {cart.length > 0 ? (
             <>
               <ul className="mt-2 space-y-2">
                 {cart.map((item) => (
                   <li key={item.id} className="flex justify-between items-center p-2 bg-white shadow-sm rounded-md">
                     <span>{item.name}</span>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 font-semibold">
                       <span>{item.price}৳</span>
                       <div className="flex items-center">
-                        <button onClick={() => decreaseQuantity(item.id)} className="bg-gray-300 px-2 py-1 rounded-md">
+                        <button onClick={() => decreaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">
                           ➖
                         </button>
                         <span className="mx-2">{item.quantity}</span>
-                        <button onClick={() => increaseQuantity(item.id)} className="bg-gray-300 px-2 py-1 rounded-md">
+                        <button onClick={() => increaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">
                           ➕
                         </button>
                       </div>
@@ -146,38 +142,53 @@ const Home = () => {
                 ))}
               </ul>
 
+              {/* Delivery Options */}
               <div className="mt-4">
-                <label className="block text-lg font-semibold mb-1">📦 ডেলিভারি অপশন</label>
-                <p className="text-sm text-gray-600 mt-1">মোট ওজন: {totalWeight} কেজি</p>
-                <div>
+                <h3 className="text-lg font-semibold mb-2">📦 ডেলিভারি অপশন</h3>
+                <p className="text-sm text-gray-600 mb-2">মোট ওজন: {totalWeight} কেজি</p>
+                <div className="flex flex-col gap-2">
                   <label className="flex items-center gap-2">
                     <input
-                      type="checkbox"
-                      onChange={() => handleDeliverySelection("insideDhaka")}
-                      checked={selectedDelivery === "ঢাকার ভিতরে"}
+                      type="radio"
+                      value="insideDhaka"
+                      checked={selectedZone === "insideDhaka"}
+                      onChange={handleZoneChange}
                     />
-                    ঢাকার ভিতরে - {deliveryRates.insideDhaka[Math.min(totalWeight, 5) || 1]}৳
+                    ঢাকার ভিতরে - {totalWeight > 5 ? 200 : deliveryRates.insideDhaka[totalWeight] || 80}৳
                   </label>
                   <label className="flex items-center gap-2">
                     <input
-                      type="checkbox"
-                      onChange={() => handleDeliverySelection("outsideDhaka")}
-                      checked={selectedDelivery === "ঢাকার বাইরে"}
+                      type="radio"
+                      value="outsideDhaka"
+                      checked={selectedZone === "outsideDhaka"}
+                      onChange={handleZoneChange}
                     />
-                    ঢাকার বাইরে - {deliveryRates.outsideDhaka[Math.min(totalWeight, 5) || 1]}৳
+                    ঢাকার বাইরে - {totalWeight > 5 ? 400 : deliveryRates.outsideDhaka[totalWeight] || 150}৳
                   </label>
                 </div>
               </div>
 
-              <div className="mt-4 font-semibold text-lg">মোট: {subtotal}৳</div>
-              <div className="mt-2 font-bold text-xl text-blue-600">সর্বমোট: {totalAmount}৳</div>
+              {/* Total Calculation */}
+              <div className="mt-4">
+                <div className="flex justify-between">
+                  <span>Subtotal:</span>
+                  <span>{subtotal}৳</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Delivery Charge:</span>
+                  <span>{deliveryCharge}৳</span>
+                </div>
+                <div className="flex justify-between font-bold text-xl text-blue-600 mt-2">
+                  <span>সর্বমোট:</span>
+                  <span>{totalAmount}৳</span>
+                </div>
+              </div>
 
+              {/* Checkout Button */}
               <button
-                onClick={() => navigate("/checkout", {
-                  state: { cart, totalAmount, deliveryCharge, selectedDelivery }
-                })}
-                disabled={!selectedDelivery}
-                className={`mt-4 px-6 py-2 rounded-md w-full text-lg ${selectedDelivery ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                onClick={() => navigate("/checkout", { state: { cart, totalAmount, deliveryCharge, selectedZone } })}
+                disabled={!selectedZone}
+                className={`mt-4 px-6 py-2 rounded-md w-full text-lg ${selectedZone ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
                   }`}
               >
                 ✅ কনফার্ম অর্ডার
@@ -188,11 +199,13 @@ const Home = () => {
           )}
         </div>
 
+        {/* Contact Info */}
         <div className="space-y-5 text-[22px] mt-6">
           <h3 className="text-[25px] font-semibold">আমাদের সাথে যোগাযোগ করুন</h3>
           <p>মোবাইল ঃ 01321 102838</p>
           <p>ইমেইল ঃ Bonmodhubd@gmail.com</p>
         </div>
+        <CollectionProcess />
       </div>
     </>
   );

@@ -61,7 +61,9 @@ const Checkout = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+    <div className="min-h-screen bg-cover bg-center flex items-center justify-center"
+    style={{ backgroundImage: "url('/images/sundarban2.jpg')" }}>
+      <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold mb-4 text-center">📦 Checkout</h2>
 
       <form ref={form} onSubmit={sendOrderToGoogleSheet} className="space-y-4">
@@ -79,6 +81,7 @@ const Checkout = () => {
           {isSubmitting ? "⏳ অর্ডার হচ্ছে..." : "✅ অর্ডার নিশ্চিত করুন"}
         </button>
       </form>
+    </div>
     </div>
   );
 };
