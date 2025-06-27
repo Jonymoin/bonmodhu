@@ -10,10 +10,67 @@ const Home = () => {
   const navigate = useNavigate();
 
   const products = {
-    sundarbans: [
-      { id: 1, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "১ কেজি", images: ["/images/bon1.jpg"], price: 2300 },
-      { id: 2, name: "খলিশা ফুলের প্রাকৃতিক ১ম কাট মধু", name1: "৫০০ গ্রাম", images: ["/images/bon1.2.jpg"], price: 1200 },
-      
+    kholisha1stCut: [
+      {
+        id: 1,
+        name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)",
+        name1: "৫০০ গ্রাম",
+        images: ["/images/bon1.jpg"],
+        price: 1200,
+      },
+      {
+        id: 2,
+        name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)",
+        name1: "১ কেজি",
+        images: ["/images/bon1.jpg"],
+        price: 2300,
+      },
+    ],
+    kholishaRegular: [
+      {
+        id: 3,
+        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
+        name1: "২৫০ গ্রাম",
+        images: ["/images/honey2.webp"],
+        price: 550,
+      },
+      {
+        id: 4,
+        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
+        name1: "৫০০ গ্রাম",
+        images: ["/images/honey2.webp"],
+        price: 1100,
+      },
+      {
+        id: 5,
+        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
+        name1: "১ কেজি",
+        images: ["/images/honey2.webp"],
+        price: 2100,
+      },
+    ],
+    bainKeora: [
+      {
+        id: 6,
+        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
+        name1: "২৫০ গ্রাম",
+        images: ["/images/mishro.jpg"],
+        price: 350,
+      },
+      {
+        id: 7,
+        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
+        name1: "৫০০ গ্রাম",
+        images: ["/images/mishro.jpg"],
+        price: 700,
+      },
+      {
+        id: 8,
+        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
+        name1: "১ কেজি",
+        images: ["/images/mishro.jpg"],
+        price: 1400,
+      },
     ],
   };
 
@@ -71,6 +128,21 @@ const Home = () => {
     setSelectedZone(e.target.value);
   };
 
+  const ProductCard = ({ item }) => (
+    <article className="bg-white flex flex-col items-center shadow-md rounded-lg p-4 w-full">
+      <img src={item.images[0]} alt={item.name} className="w-full h-40 md:h-52 object-cover rounded-md" />
+      <h3 className="text-lg font-semibold mt-2 text-center">{item.name}</h3>
+      <h3 className="text-lg font-semibold mt-1 text-center">{item.name1}</h3>
+      <p className="text-gray-600 text-center">মূল্য: {item.price}৳</p>
+      <button
+        onClick={() => addToCart(item)}
+        className="mt-2 bg-blue-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition"
+      >
+        কিনুন
+      </button>
+    </article>
+  );
+
   return (
     <>
       <div className="bg-green-500 text-center flex flex-col items-center">
@@ -98,28 +170,30 @@ const Home = () => {
       <div className="max-w-6xl mx-auto p-4">
         <h2 className="text-4xl font-bold text-center mb-4">আমাদের সংগ্রহ</h2>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">🌿 সুন্দরবনের মধু</h3>
+        <h3 className="text-xl font-semibold mt-6 mb-2">১. খলিশা “র” (১ম কাট, প্রাকৃতিক, সুন্দরবন)</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
-          {products.sundarbans.map((item) => (
-            <article key={item.id} className="bg-white flex flex-col items-center shadow-md rounded-lg p-4 w-full">
-              <img src={item.images[0]} alt={item.name} className="w-full h-40 md:h-52 object-cover rounded-md" />
-              <h3 className="text-lg font-semibold mt-2 text-center">{item.name}</h3>
-              <h3 className="text-lg font-semibold mt-1 text-center">{item.name1}</h3>
-              <p className="text-gray-600 text-center">মূল্য: {item.price}৳</p>
-              <button
-                onClick={() => addToCart(item)}
-                className="mt-2 bg-blue-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition"
-              >
-                কিনুন
-              </button>
-            </article>
+          {products.kholisha1stCut.map((item) => (
+            <ProductCard key={item.id} item={item} />
+          ))}
+        </div>
+
+        <h3 className="text-xl font-semibold mt-6 mb-2">২. খলিশা “র” (প্রাকৃতিক, সুন্দরবন)</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
+          {products.kholishaRegular.map((item) => (
+            <ProductCard key={item.id} item={item} />
+          ))}
+        </div>
+
+        <h3 className="text-xl font-semibold mt-6 mb-2">৩. বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
+          {products.bainKeora.map((item) => (
+            <ProductCard key={item.id} item={item} />
           ))}
         </div>
 
         {/* Cart Section */}
         <div className="mt-6 p-4 bg-gray-100 rounded-lg">
           <h2 className="text-xl font-bold">🛒 আপনার কার্ট</h2>
-
           {cart.length > 0 ? (
             <>
               <ul className="mt-2 space-y-2">
@@ -142,7 +216,6 @@ const Home = () => {
                 ))}
               </ul>
 
-              {/* Delivery Options */}
               <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">📦 ডেলিভারি অপশন</h3>
                 <p className="text-sm text-gray-600 mb-2">মোট ওজন: {totalWeight} কেজি</p>
@@ -168,7 +241,6 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Total Calculation */}
               <div className="mt-4">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
@@ -184,12 +256,10 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* Checkout Button */}
               <button
                 onClick={() => navigate("/checkout", { state: { cart, totalAmount, deliveryCharge, selectedZone } })}
                 disabled={!selectedZone}
-                className={`mt-4 px-6 py-2 rounded-md w-full text-lg ${selectedZone ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
-                  }`}
+                className={`mt-4 px-6 py-2 rounded-md w-full text-lg ${selectedZone ? "bg-green-500 hover:bg-green-600 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"}`}
               >
                 ✅ কনফার্ম অর্ডার
               </button>
@@ -199,7 +269,6 @@ const Home = () => {
           )}
         </div>
 
-        {/* Contact Info */}
         <div className="space-y-5 text-[22px] mt-6">
           <h3 className="text-[25px] font-semibold">আমাদের সাথে যোগাযোগ করুন</h3>
           <p>মোবাইল ঃ 01321 102838</p>
