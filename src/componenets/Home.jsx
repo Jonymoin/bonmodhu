@@ -11,66 +11,18 @@ const Home = () => {
 
   const products = {
     kholisha1stCut: [
-      {
-        id: 1,
-        name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)",
-        name1: "৫০০ গ্রাম",
-        images: ["/images/bon1.jpg"],
-        price: 1200,
-      },
-      {
-        id: 2,
-        name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)",
-        name1: "১ কেজি",
-        images: ["/images/bon1.jpg"],
-        price: 2300,
-      },
+      { id: 1, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/bon1.jpg"], price: 1200 },
+      { id: 2, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/bon1.jpg"], price: 2300 },
     ],
     kholishaRegular: [
-      {
-        id: 3,
-        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
-        name1: "২৫০ গ্রাম",
-        images: ["/images/honey2.webp"],
-        price: 550,
-      },
-      {
-        id: 4,
-        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
-        name1: "৫০০ গ্রাম",
-        images: ["/images/honey2.webp"],
-        price: 1100,
-      },
-      {
-        id: 5,
-        name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)",
-        name1: "১ কেজি",
-        images: ["/images/honey2.webp"],
-        price: 2100,
-      },
+      { id: 3, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/honey2.webp"], price: 550 },
+      { id: 4, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/honey2.webp"], price: 1100 },
+      { id: 5, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/honey2.webp"], price: 2100 },
     ],
     bainKeora: [
-      {
-        id: 6,
-        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
-        name1: "২৫০ গ্রাম",
-        images: ["/images/mishro.jpg"],
-        price: 350,
-      },
-      {
-        id: 7,
-        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
-        name1: "৫০০ গ্রাম",
-        images: ["/images/mishro.jpg"],
-        price: 700,
-      },
-      {
-        id: 8,
-        name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)",
-        name1: "১ কেজি",
-        images: ["/images/mishro.jpg"],
-        price: 1400,
-      },
+      { id: 6, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/mishro.jpg"], price: 350 },
+      { id: 7, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/mishro.jpg"], price: 700 },
+      { id: 8, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/mishro.jpg"], price: 1400 },
     ],
   };
 
@@ -110,15 +62,26 @@ const Home = () => {
     );
   };
 
+  const getWeightInGrams = (name1) => {
+    if (name1.includes("২৫০")) return 250;
+    if (name1.includes("৫০০")) return 500;
+    if (name1.includes("১ কেজি")) return 1000;
+    return 0;
+  };
+
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const totalWeight = cart.reduce((total, item) => total + item.quantity, 0);
+  const totalWeightInGrams = cart.reduce(
+    (total, item) => total + getWeightInGrams(item.name1) * item.quantity,
+    0
+  );
+  const totalWeightInKg = Math.ceil(totalWeightInGrams / 1000);
 
   const calculateDeliveryCharge = () => {
     if (!selectedZone) return 0;
-    if (totalWeight > 5) {
+    if (totalWeightInKg > 5) {
       return selectedZone === "insideDhaka" ? 200 : 400;
     }
-    return deliveryRates[selectedZone][totalWeight] || 0;
+    return deliveryRates[selectedZone][totalWeightInKg] || 0;
   };
 
   const deliveryCharge = calculateDeliveryCharge();
@@ -203,13 +166,9 @@ const Home = () => {
                     <div className="flex items-center gap-4 font-semibold">
                       <span>{item.price}৳</span>
                       <div className="flex items-center">
-                        <button onClick={() => decreaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">
-                          ➖
-                        </button>
+                        <button onClick={() => decreaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">➖</button>
                         <span className="mx-2">{item.quantity}</span>
-                        <button onClick={() => increaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">
-                          ➕
-                        </button>
+                        <button onClick={() => increaseQuantity(item.id)} className="bg-cyan-400 hover:bg-red-500 text-white px-2 py-1 rounded-full transition">➕</button>
                       </div>
                     </div>
                   </li>
@@ -218,7 +177,7 @@ const Home = () => {
 
               <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">📦 ডেলিভারি অপশন</h3>
-                <p className="text-sm text-gray-600 mb-2">মোট ওজন: {totalWeight} কেজি</p>
+                <p className="text-sm text-gray-600 mb-2">মোট ওজন: {totalWeightInKg} কেজি</p>
                 <div className="flex flex-col gap-2">
                   <label className="flex items-center gap-2">
                     <input
@@ -227,7 +186,7 @@ const Home = () => {
                       checked={selectedZone === "insideDhaka"}
                       onChange={handleZoneChange}
                     />
-                    ঢাকার ভিতরে - {totalWeight > 5 ? 200 : deliveryRates.insideDhaka[totalWeight] || 80}৳
+                    ঢাকার ভিতরে - {totalWeightInKg > 5 ? 200 : deliveryRates.insideDhaka[totalWeightInKg] || 80}৳
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -236,7 +195,7 @@ const Home = () => {
                       checked={selectedZone === "outsideDhaka"}
                       onChange={handleZoneChange}
                     />
-                    ঢাকার বাইরে - {totalWeight > 5 ? 400 : deliveryRates.outsideDhaka[totalWeight] || 150}৳
+                    ঢাকার বাইরে - {totalWeightInKg > 5 ? 400 : deliveryRates.outsideDhaka[totalWeightInKg] || 150}৳
                   </label>
                 </div>
               </div>
@@ -274,6 +233,7 @@ const Home = () => {
           <p>মোবাইল ঃ 01321 102838</p>
           <p>ইমেইল ঃ Bonmodhubd@gmail.com</p>
         </div>
+
         <CollectionProcess />
       </div>
     </>
