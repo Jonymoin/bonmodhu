@@ -10,21 +10,25 @@ const Home = () => {
   const navigate = useNavigate();
 
   const products = {
-    kholisha1stCut: [
-      { id: 1, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/bon1.jpg"], price: 1200 },
-      { id: 2, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/bon1.jpg"], price: 2300 },
-    ],
-    kholishaRegular: [
-      { id: 3, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/honey2.webp"], price: 550 },
-      { id: 4, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/honey2.webp"], price: 1100 },
-      { id: 5, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/honey2.webp"], price: 2100 },
-    ],
-    bainKeora: [
-      { id: 6, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/mishro.jpg"], price: 350 },
-      { id: 7, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/mishro.jpg"], price: 700 },
-      { id: 8, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/mishro.jpg"], price: 1400 },
-    ],
-  };
+  kholisha1stCut: [
+    { id: 1, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/bon1.jpg"], price: 1200 },
+    { id: 2, name: "খলিশা  'র' (১ম কাট, প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/bon1.jpg"], price: 2300 },
+  ],
+  kholishaRegular: [
+    { id: 3, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/honey2.webp"], price: 550 },
+    { id: 4, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/honey2.webp"], price: 1100 },
+    { id: 5, name: "খলিশা 'র' (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/honey2.webp"], price: 2100 },
+  ],
+  
+  /*
+  bainKeora: [
+    { id: 6, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "২৫০ গ্রাম", images: ["/images/mishro.jpg"], price: 350 },
+    { id: 7, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "৫০০ গ্রাম", images: ["/images/mishro.jpg"], price: 700 },
+    { id: 8, name: "বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)", name1: "১ কেজি", images: ["/images/mishro.jpg"], price: 1400 },
+  ],
+  */
+};
+
 
   const deliveryRates = {
     insideDhaka: { 1: 80, 2: 100, 3: 120, 4: 140, 5: 160 },
@@ -147,12 +151,7 @@ const Home = () => {
           ))}
         </div>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">৩. বাইন কেওরা মিশ্র (প্রাকৃতিক, সুন্দরবন)</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-center">
-          {products.bainKeora.map((item) => (
-            <ProductCard key={item.id} item={item} />
-          ))}
-        </div>
+       
 
         {/* Cart Section */}
         <div className="mt-6 p-4 bg-gray-100 rounded-lg">
